@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Client - HESSFR</title>
+    <style>
+        /* --- Styles CSS Communs --- */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #f8f9fa;
+            --dark-color: #343a40;
+            --light-color: #ffffff;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* --- Styles pour la Page de Connexion --- */
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: var(--light-color);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-box .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+
+        .login-box h1 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: var(--border-radius);
+            box-sizing: border-box; /* Important pour que le padding n'ajoute pas à la largeur */
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: transform 0.3s, background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .login-links {
+            margin-top: 20px;
+        }
+
+        .login-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        /* --- Styles pour le Tableau de Bord (une fois connecté) --- */
+        /* Note : Pour un vrai site, ceci serait dans une page séparée. */
+        /* Pour la démo, on cache la connexion et on montre le dashboard. */
+
+        #dashboard-view {
+            display: none; /* Caché par défaut */
+        }
+        
+        /* Header du dashboard */
+        .header {
+            background-color: var(--light-color);
+            padding: 15px 0;
+            box-shadow: var(--box-shadow);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .user-menu a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        /* Contenu principal du dashboard */
+        .dashboard-header {
+            padding: 40px 0;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Widgets et cartes */
+        .card {
+            background: var(--light-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        /* Widget de consommation */
+        .consumption-tracker p {
+            margin: 5px 0 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--success-color);
+            color: white;
+            text-align: center;
+            line-height: 20px;
+            font-weight: bold;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+        
+        /* Widget Factures */
+        .invoice-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .invoice-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .invoice-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .invoice-list a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        /* Sidebar avec liens rapides */
+        .quick-links a {
+            display: block;
+            padding: 15px;
+            background: var(--secondary-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            margin-bottom: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .quick-links a:hover {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="login-view">
+        <div class="login-container">
+            <div class="login-box">
+                <a href="#"><img src="https://i.ibb.co/XkK9LNDR/test.png" height="100" width="100" /></a>
+                <h1>Accès Espace Client</h1>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email">Identifiant (email ou n° de ligne)</label>
+                        <input type="text" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                </form>
+                <div class="login-links">
+                    <p><a href="#">Mot de passe oublié ?</a></p>
+                    <p>Pas encore de compte ? <a href="#">S'inscrire</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-view">
+        <header class="header">
+            <div class="container navbar">
+                <a href="#"><img src="C:\Users\EOuann Morin\Desktop\hessfr\images\test.png" height="100" width="100" /></a>
+                <div class="user-menu">
+                    Bonjour, HESSFR | <a href="#" id="logout-button">Déconnexion</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="container">
+            <section class="dashboard-header">
+                <h1>Mon Espace Client</h1>
+                <p>Bienvenue sur votre tableau de bord HESSFR.</p>
+            </section>
+
+            <div class="dashboard-grid">
+                <div class="main-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Mon Forfait Mobile</h2>
+                            <a href="#" class="btn-link">Changer de forfait</a>
+                        </div>
+                        <h3>Chico De Samos 5000 To (Wifi Speedtest)</h3>
+                        <p><strong>Numéro de ligne :</strong> +33 6 12 34 56 78</p>
+                        <p><strong>Prochain renouvellement le :</strong> 01/11/2025</p>
+                    </div>
+                    
+                    <div class="card consumption-tracker">
+                        <div class="card-header">
+                            <h2>Ma consommation</h2>
+                        </div>
+                        <p><strong>Internet Mobile :</strong> 254155457447,5 To / 5000 To</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 41.6%;">1000000000%</div>
+                        </div>
+                        <p style="margin-top: 20px;"><strong>Appels et SMS/MMS :</strong> Illimités</p>
+                    </div>
+
+                    <div class="card invoice-list">
+                         <div class="card-header">
+                            <h2>Mes dernières factures</h2>
+                             <a href="#" class="btn-link">Voir toutes mes factures</a>
+                        </div>
+                        <ul>
+                            <li>
+                                <span>Facture du 01 Octobre 2025</span>
+                                <a href="#">Télécharger (PDF)</a>
+                            </li>
+                            <li>
+                                <span>Facture du 01 Septembre 2025</span>
+                                <a href="#">Télécharger (PDF)</a>
+                            </li>
+                            <li>
+                                <span>Facture du 01 Août 2025</span>
+                                <a href="#">Télécharger (PDF)</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <aside class="sidebar">
+                    <div class="card quick-links">
+                        <h2>Accès Rapides</h2>
+                        <nav>
+                            <a href="#">Gérer mes options</a>
+                            <a href="#">Suivre ma commande</a>
+                            <a href="#">Obtenir mon code PUK</a>
+                            <a href="#">Mes informations personnelles</a>
+                            <a href="#">Aide et contact</a>
+                        </nav>
+                    </div>
+                     <div class="card">
+                        <h2>Infos & Nouveautés</h2>
+                        <p>Passez à la 5G+ pour seulement 2€/mois en plus !</p>
+                        <a href="#">Découvrir</a>
+                    </div>
+                </aside>
+            </div>
+        </main>
+        
+    </div>
+
+    <script>
+        // --- Petit script pour simuler la connexion ---
+        const loginView = document.getElementById('login-view');
+        const dashboardView = document.getElementById('dashboard-view');
+        const loginForm = document.getElementById('login-form');
+        const logoutButton = document.getElementById('logout-button');
+
+        // Fonction pour afficher le dashboard
+        function showDashboard() {
+            loginView.style.display = 'none';
+            dashboardView.style.display = 'block';
+        }
+
+        // Fonction pour afficher la page de connexion
+        function showLogin() {
+            loginView.style.display = 'block';
+            dashboardView.style.display = 'none';
+        }
+
+        // Événement lors de la soumission du formulaire
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+            // Ici, vous mettriez normalement une vraie vérification
+            console.log('Tentative de connexion...');
+            showDashboard();
+        });
+        
+        // Événement pour la déconnexion
+        logoutButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log('Déconnexion...');
+            showLogin();
+        });
+        
+        // Par défaut, on affiche la vue de connexion
+        showLogin();
+        
+        // Pour tester directement le dashboard, décommentez la ligne suivante :
+        // showDashboard();
+
+    </script>
+</body>
+</html>

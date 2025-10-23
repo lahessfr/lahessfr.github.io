@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aide et Contact - HESSFR</title>
+    <style>
+        /* --- Styles CSS --- */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #f8f9fa;
+            --dark-color: #343a40;
+            --light-color: #ffffff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header --- */
+        .header {
+            background-color: var(--light-color);
+            padding: 15px 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Section de Recherche --- */
+        .search-hero {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .search-hero h1 {
+            font-size: 2.8em;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            font-size: 1.1em;
+            border-radius: var(--border-radius);
+            border: none;
+            box-sizing: border-box;
+        }
+
+        .search-bar::after {
+            content: '🔍'; /* Icône de loupe */
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+        }
+        
+        /* --- Sections de contenu --- */
+        .section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        /* --- Catégories d'aide --- */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            text-align: center;
+        }
+        
+        .category-card {
+            background: var(--secondary-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--dark-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .category-card .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .category-card h3 {
+            font-size: 1.4em;
+            margin: 0;
+        }
+
+        /* --- Section FAQ --- */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item details {
+            background: var(--secondary-color);
+            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .faq-item summary {
+            padding: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            list-style: none; /* Cache la flèche par défaut */
+            position: relative;
+        }
+        
+        .faq-item summary::-webkit-details-marker {
+            display: none; /* Cache la flèche sur Chrome/Safari */
+        }
+        
+        .faq-item summary::after {
+            content: '+';
+            position: absolute;
+            right: 20px;
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+        
+        .faq-item details[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-item .answer {
+            padding: 0 20px 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* --- Section Contact --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .contact-card {
+            background: var(--light-color);
+            border: 1px solid #e0e0e0;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+        
+        .contact-card .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .contact-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: transform 0.3s;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--light-color);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="index.html"><img src="https://i.ibb.co/XkK9LNDR/test.png" height="100" width="100" /></a>
+                <ul class="nav-links">
+                    <li><a href="index.html#mobiles">Forfaits Mobiles</a></li>
+                    <li><a href="index.html#box">Box Internet</a></li>
+                    <li><a href="espace-client.html">Espace Client</a></li>
+                    <li><a href="aide.html">Aide</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="search-hero">
+            <div class="container">
+                <h1>Comment pouvons-nous vous aider ?</h1>
+                <div class="search-bar">
+                    <input type="search" placeholder="Ex: Obtenir mon code PUK">
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Parcourir par catégorie</h2>
+                <div class="categories-grid">
+                    <a href="espace-client.html" class="category-card">
+                        <div class="icon">📄</div>
+                        <h3>Factures et Paiements</h3>
+                    </a>
+                    <a href="espace-client.html" class="category-card">
+                        <div class="icon">📱</div>
+                        <h3>Forfait et Options Mobiles</h3>
+                    </a>
+                    <a href="espace-client.html" class="category-card">
+                        <div class="icon">🏠</div>
+                        <h3>Box Internet et TV</h3>
+                    </a>
+                    <a href="espace-client.html" class="category-card">
+                        <div class="icon">👤</div>
+                        <h3>Compte et Infos Personnelles</h3>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section" style="background-color: var(--secondary-color);">
+            <div class="container">
+                <h2 class="section-title">Questions fréquentes</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <details>
+                            <summary>Comment obtenir mon code PUTE ?</summary>
+                            <div class="answer">
+                                <p>Votre code PUTE est disponible 24h/24 et 7j/7 dans votre Espace Client, rubrique "KARRIS ET BASTOS". Vous pouvez également l'obtenir en appelant Emmanuel Macron depuis une autre ligne HESSFR.</p>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="faq-item">
+                        <details>
+                            <summary>Je ne comprends la taxe FDP dans ma facture.</summary>
+                            <div class="answer">
+                                <p>Nous proposons une facture de fils de pute dans votre Espace Client, rubrique "Mes Taxe De PUTE". Vous y trouverez le détail de vos consommations et abonnements. Si une zone d'ombre persiste, notre service client est là pour vous aider.</p>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="faq-item">
+                        <details>
+                            <summary>Comment changer mon Vibromasseur HESSFR ?</summary>
+                            <div class="answer">
+                                <p>Vous pouvez changer de Vibromasseur à tout moment depuis votre Espace Client, section "Mon Sex TOY (By Mia Khalifa)". Le changement sera effectif à votre prochaine date de renouvellement menstruel.</p>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="faq-item">
+                        <details>
+                            <summary>Ma connexion Internet est lente, que faire ?</summary>
+                            <div class="answer">
+                                <p>Nous vous invitons à suivre ces étapes :</p>
+                                <ol>
+                                    <li>Redémarrez votre box HESSFR Puis exploser la box avec un objet lourds afin de maximiser les performance de votre box.</li>
+                                    <li>Vérifiez les branchements de votre box.</li>
+                                    <li>Effectuez un test de débit avec The Kairi 78 Afin de faire un constat sur l'assr</li>
+                                </ol>
+                                <p>Si le problème persiste, contactez notre assistance technique.</p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Besoin de nous contacter ?</h2>
+                <p style="text-align:center; max-width: 700px; margin: -20px auto 40px;">Si vous n'avez pas trouvé de réponse à votre question, nos équipes sont à votre disposition.</p>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <div class="icon">💬</div>
+                        <h3>Chat en ligne</h3>
+                        <p>Discutez avec un de nos conseillers pour une réponse rapide et efficace. Disponible de 8h à 21h.</p>
+                        <a href="403.html" class="btn">Démarrer le chat</a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">📞</div>
+                        <h3>Par téléphone</h3>
+                        <p>Appelez le <strong>3200</strong> depuis votre ligne HESSFR (appel gratuit) ou le 0 800 123 456 depuis un autre poste.</p>
+                        <p><strong>(Service gratuit + prix appel)</strong></p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">📍</div>
+                        <h3>En

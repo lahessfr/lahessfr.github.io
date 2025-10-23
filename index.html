@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HESSFR - C'est la HESS dans votre box</title>
+    <style>
+        /* --- Styles CSS --- */
+        
+        /* Réinitialisation et police de base */
+        :root {
+            --primary-color: #007bff; /* Bleu HESSFR */
+            --secondary-color: #f8f9fa; /* Fond clair */
+            --dark-color: #343a40; /* Texte foncé */
+            --light-color: #ffffff; /* Texte clair */
+            --success-color: #28a745; /* Vert pour les avantages */
+            --border-radius: 8px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        /* Conteneur principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header et Navigation */
+        .header {
+            background-color: var(--light-color);
+            padding: 15px 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Section Héros (Bannière principale) */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.ibb.co/1pYkD10/Capture-d-cran-2025-10-23-114052.png') center/cover no-repeat;
+            color: var(--light-color);
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        /* Boutons */
+        .btn {
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Sections */
+        .section {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        /* Cartes d'offres */
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            text-align: left;
+        }
+
+        .offer-card {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s;
+        }
+        
+        .offer-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .offer-card h3 {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        
+        .price {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .price span {
+            font-size: 0.5em;
+            font-weight: normal;
+        }
+
+        .offer-card ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+            flex-grow: 1; /* Pousse le bouton vers le bas */
+        }
+        
+        .offer-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .offer-card li::before {
+            content: '✔';
+            color: var(--success-color);
+            margin-right: 10px;
+        }
+        
+        /* Section Pourquoi nous choisir */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: left;
+        }
+        
+        .feature-item {
+            background: var(--light-color);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .feature-item h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .feature-item .icon {
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        /* Section CTA (Call to Action) */
+        .cta {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--light-color);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Simplification pour l'exemple, un menu burger serait mieux */
+            }
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            .section h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+             <a href="#"><img src="https://i.ibb.co/XkK9LNDR/test.png" height="100" width="100" /></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#mobiles">Forfaits Mobiles</a></li>
+                    <li><a href="#box">Box Internet</a></li>
+                    <li><a href="#pourquoi">Pourquoi nous choisir ?</a></li>
+                    <li><a href="espace-client.html">Espace Client</a></li>
+                    <li><a href="aide.html">Aide</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Le futur de la hess, dès aujourd'hui.</h1>
+                <p>Découvrez nos offres exclusives et rejoignez une communauté qui casse les couilles sur twitter.</p>
+                <a href="#mobiles" class="btn btn-primary">Voir nos offres</a>
+            </div>
+        </section>
+        
+        <section id="mobiles" class="section">
+            <div class="container">
+                <h2>Nos Forfaits Mobiles</h2>
+                <div class="offers-grid">
+                    <div class="offer-card">
+                        <h3>92I</h3>
+                        <div class="price">600.000€<span>/mois</span></div>
+                        <ul>
+                            <li>Snapchat + Gratuit</li>
+                            <li>Appels & SMS/MMS Illimités</li>
+                            <li>Sans engagement</li>
+                            <li>Qualité du réseau 92I+</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">Choisir ce forfait</a>
+                    </div>
+                    <div class="offer-card">
+                        <h3>Chico De Samos</h3>
+                         <div class="price">100000000000€<span>/Secondes</span></div>
+                        <ul>
+                            <li>Forfais Dentiste INCLUS</li>
+                            <li>Appels & SMS/MMS Illimités</li>
+                            <li>Billet Pour La Turquie GRATIS/DOM</li>
+                            <li>Avec engagement</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">Choisir ce forfait</a>
+                    </div>
+                    <div class="offer-card">
+                        <h3>Streamer</h3>
+                        <div class="price">29,99€<span>/mois</span></div>
+                        <ul>
+                            <li>0 Go de data en 2G</li>
+                            <li>Appels & SMS/MMS Illimités</li>
+                            <li>-5 Go depuis Europe/DOM</li>
+                            <li>Sans engagement</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">Choisir ce forfait</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="box" class="section" style="background-color: var(--light-color);">
+            <div class="container">
+                <h2>La Fibre à la maison 🚀</h2>
+                <div class="offers-grid">
+                     <div class="offer-card">
+                        <h3>HESSFR RAGEBAIT PACK</h3>
+                         <div class="price">24,99€<span>/mois</span></div>
+                        <ul>
+                            <li>Fibre jusqu'à 500 Mo/s</li>
+                            <li>Avec Connextion Instable</li>
+                            <li>Installation pas incluse</li>
+                            <li>Location de box pas incluse</li>
+                        </ul>
+                        <a href="https://youtu.be/LO7mkuY9N34?si=mx-XUAXpLm0Fsm1c" class="btn btn-primary">Voir La PUB</a>
+                    </div>
+                    <div class="offer-card">
+                        <h3>HESSFR Fibre Premium</h3>
+                        <div class="price">39,99€<span>/mois</span></div>
+                        <ul>
+                            <li>Fibre jusqu'à 8 Gbit/s</li>
+                            <li>Internet + TV 4K (180 chaînes)</li>
+                            <li>Appels illimités vers les fixes</li>
+                            <li>Installation incluse</li>
+                        </ul>
+                        <a href="https://youtu.be/LO7mkuY9N34?si=mx-XUAXpLm0Fsm1c" class="btn btn-primary">Voir La PUB</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="pourquoi" class="section">
+            <div class="container">
+                <h2>Pourquoi choisir HESSFR ?</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="icon">⚡️</div>
+                        <h3>Réseau 5G ultra-rapide</h3>
+                        <p>Profitez d'une connexion stable et performante où que vous soyez.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">💬</div>
+                        <h3>Service client à votre écoute</h3>
+                        <p>Basé en France et disponible 7j/7 pour répondre à toutes vos questions.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">📄</div>
+                        <h3>Offres claires et sans surprise</h3>
+                        <p>Pas de frais cachés, vous savez exactement ce que vous payez.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">📱</div>
+                        <h3>Application simple et intuitive</h3>
+                        <p>Gérez votre compte et suivez votre consommation en quelques clics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section cta">
+            <div class="container">
+                <h2>Déjà client ?</h2>
+                <p>Accédez à votre espace pour gérer vos lignes, consulter vos factures et découvrir vos avantages.</p>
+                <a href="espace-client.html" class="btn btn-primary">Me connecter</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 HESSFR</p>
+            <p>
+                <a href="#">Mentions légales</a> | 
+                <a href="#">Données personnelles</a> | 
+                <a href="#">Plan du site</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
