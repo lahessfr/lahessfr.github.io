@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speedtest Simplifié</title>
+    
+    <style>
+        /* CSS pour le style */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            padding: 50px; 
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            color: #007bff;
+        }
+        button { 
+            padding: 15px 30px; 
+            font-size: 1.2em; 
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover:not(:disabled) {
+            background-color: #218838;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        #resultats { 
+            margin-top: 40px; 
+            border: 2px solid #ccc; 
+            padding: 30px; 
+            max-width: 450px; 
+            margin: 40px auto; 
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        p {
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+        .vitesse { 
+            font-size: 3em; 
+            font-weight: bold; 
+            color: #dc3545; /* Couleur pour le débit */
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Test de Vitesse Simplifié (Download)</h1>
+    <p>Veuillez noter que ce test mesure le débit descendant en utilisant un seul fichier.</p>
+    
+    <button id="startButton">Démarrer le Test</button>
+    
+    <div id="resultats">
+        <p>Statut : <span id="statut">Prêt.</span></p>
+        <p>Débit descendant : <span id="downloadSpeed" class="vitesse">0.00</span> Mbps</p>
+        <p>Temps de Test : <span id="testTime">0.0</span> s</p>
+        <hr>
+        <p style="font-size: 0.9em; color: #6c757d;">
+            **IMPORTANT :** URL du fichier à télécharger : <span id="testUrlDisplay"></span>
+        </p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const startButton = document.getElementById('startButton');
+            const statutSpan = document.getElementById('statut');
+            const downloadSpeedSpan = document.getElementById('downloadSpeed');
+            const testTimeSpan = document.getElementById('testTime');
+            const testUrlDisplay = document.getElementById('testUrlDisplay');
+
+            // --- PARAMÈTRES DU TEST ---
+            // REMPLACER cette URL ! C'est le point de défaillance le plus courant.
+            // Utilisez l'URL d'un GROS fichier (>= 10 Mo) hébergé sur votre serveur.
+            const TEST_FILE_URL = 'https://ash-speed.hetzner.com/1GB.bin'; 
+            // NOTE: J'utilise ici un fichier de test public (Hetzner) pour que le script soit fonctionnel par défaut.
+            // Pour des tests précis de votre connexion, il est préférable d'utiliser votre propre serveur.
+            
+            const BYTES_TO_MBITS = 8 / (1024 * 1024); // Convertit les Bytes/seconde en Mbits/seconde (1 Byte = 8 bits)
+
+            testUrlDisplay.textContent = TEST_FILE_URL;
+
+            startButton.addEventListener('click', startSpeedTest);
+
+            /**
+             * Démarre le test de vitesse (download)
+             */
+            async function startSpeedTest() {
+                startButton.disabled = true;
+                downloadSpeedSpan.textContent = '0.00';
+                testTimeSpan.textContent = '0.0';
+                statutSpan.textContent = 'Téléchargement en cours... ⏳';
+                
+                const startTime = performance.now();
+                let totalBytes = 0;
+
+                try {
+                    // Utiliser 'no-cache' pour éviter que le navigateur ne serve le fichier depuis le cache
+                    const response = await fetch(TEST_FILE_URL, { cache: 'no-cache' });
+
+                    if (!response.ok) {
+                        throw new Error(`Erreur HTTP: ${response.status} ${response.statusText}`);
+                    }
+
+                    // Assure que le corps de la réponse peut être lu par morceaux
+                    const reader = response.body.getReader();
+                    
+                    // Boucle de lecture du flux de données
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) {
+                            break; // Le fichier est entièrement téléchargé
+                        }
+                        
+                        // Mettre à jour le nombre de bytes lus
+                        totalBytes += value.length;
+                        
+                        // Mise à jour de l'affichage en temps réel 
+                        const currentTime = performance.now();
+                        const durationSeconds = (currentTime - startTime) / 1000;
+                        
+                        if (durationSeconds > 0.1) { // Mettre à jour toutes les 100ms
+                            const bytesPerSecond = totalBytes / durationSeconds;
+                            const mbps = bytesPerSecond * BYTES_TO_MBITS;
+                            downloadSpeedSpan.textContent = mbps.toFixed(2);
+                            testTimeSpan.textContent = durationSeconds.toFixed(1);
+                        }
+                    }
+
+                    const endTime = performance.now();
+                    const durationSeconds = (endTime - startTime) / 1000;
+                    const bytesPerSecond = totalBytes / durationSeconds;
+                    const mbps = bytesPerSecond * BYTES_TO_MBITS;
+
+                    statutSpan.textContent = 'Test terminé! 🎉';
+                    downloadSpeedSpan.textContent = mbps.toFixed(2);
+                    testTimeSpan.textContent = durationSeconds.toFixed(1);
+
+                } catch (error) {
+                    statutSpan.textContent = `Erreur: Connexion échouée ou CORS. (Voir console F12)`;
+                    downloadSpeedSpan.textContent = '0.00';
+                    console.error("Erreur lors du test de vitesse:", error);
+                } finally {
+                    startButton.disabled = false;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
